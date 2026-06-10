@@ -1,14 +1,10 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { DemographicsComponent } from './components/demographics/demographics'; // <-- Import added
+import { PreAssessmentComponent } from './components/pre-assessment/pre-assessment';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, DemographicsComponent], // <-- Added to imports array
+  imports: [PreAssessmentComponent],
   templateUrl: './app.html',
-  styleUrl: './app.css'
 })
-export class AppComponent {
-  title = 'hilotspa-frontend';
-}
+export class AppComponent {}

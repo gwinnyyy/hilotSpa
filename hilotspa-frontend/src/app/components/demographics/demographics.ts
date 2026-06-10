@@ -14,7 +14,6 @@ export class DemographicsComponent {
   submissionStatus: string = '';
 
   constructor(private fb: FormBuilder, private demoService: DemographicsService) {
-    // This matches the Payload interface we built in the service
     this.demoForm = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -30,11 +29,11 @@ export class DemographicsComponent {
   onSubmit() {
     if (this.demoForm.valid) {
       this.demoService.saveDemographics(this.demoForm.value).subscribe({
-        next: (response) => {
+        next: (response: any) => {
           this.submissionStatus = 'Patient demographics saved successfully!';
           this.demoForm.reset();
         },
-        error: (error) => {
+        error: (error: any) => {
           console.error('Error saving data', error);
           this.submissionStatus = 'Failed to save data. Check console.';
         }

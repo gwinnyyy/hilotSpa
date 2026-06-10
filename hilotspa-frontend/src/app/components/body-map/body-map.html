@@ -1,0 +1,237 @@
+<div class="flex flex-col items-center gap-4 w-full">
+
+  <!-- Front / Back toggle -->
+  <div class="flex gap-2 bg-gray-100 rounded-full p-1">
+    <button
+      (click)="activeView = 'front'"
+      [class]="activeView === 'front'
+        ? 'px-6 py-2 rounded-full bg-white text-gray-800 font-medium shadow-sm text-sm'
+        : 'px-6 py-2 rounded-full text-gray-500 text-sm'"
+    >Front</button>
+    <button
+      (click)="activeView = 'back'"
+      [class]="activeView === 'back'
+        ? 'px-6 py-2 rounded-full bg-white text-gray-800 font-medium shadow-sm text-sm'
+        : 'px-6 py-2 rounded-full text-gray-500 text-sm'"
+    >Back</button>
+  </div>
+
+  <p class="text-sm text-gray-500">Tap a body region to mark pain</p>
+
+  <!-- SVG Body - Front View -->
+  @if (activeView === 'front') {
+    <svg viewBox="0 0 200 440" class="w-48 h-auto select-none" xmlns="http://www.w3.org/2000/svg">
+
+      <!-- Head -->
+      <ellipse id="head" cx="100" cy="30" rx="22" ry="26"
+        [attr.fill]="isMarked('head') ? getPainColor(getPainScore('head')) : '#e2e8f0'"
+        [attr.fill-opacity]="isMarked('head') ? '0.8' : '1'"
+        stroke="#94a3b8" stroke-width="1.5" class="cursor-pointer hover:opacity-80 transition-opacity"
+        (click)="onRegionClick($event, 'head')" />
+
+      <!-- Neck -->
+      <rect id="neck" x="88" y="54" width="24" height="18" rx="4"
+        [attr.fill]="isMarked('neck') ? getPainColor(getPainScore('neck')) : '#e2e8f0'"
+        stroke="#94a3b8" stroke-width="1.5" class="cursor-pointer hover:opacity-80 transition-opacity"
+        (click)="onRegionClick($event, 'neck')" />
+
+      <!-- Torso/Chest -->
+      <rect id="chest" x="68" y="72" width="64" height="70" rx="8"
+        [attr.fill]="isMarked('chest') ? getPainColor(getPainScore('chest')) : '#e2e8f0'"
+        stroke="#94a3b8" stroke-width="1.5" class="cursor-pointer hover:opacity-80 transition-opacity"
+        (click)="onRegionClick($event, 'chest')" />
+
+      <!-- Abdomen -->
+      <rect id="abdomen" x="72" y="142" width="56" height="50" rx="6"
+        [attr.fill]="isMarked('abdomen') ? getPainColor(getPainScore('abdomen')) : '#e2e8f0'"
+        stroke="#94a3b8" stroke-width="1.5" class="cursor-pointer hover:opacity-80 transition-opacity"
+        (click)="onRegionClick($event, 'abdomen')" />
+
+      <!-- Left Shoulder -->
+      <ellipse id="left-shoulder" cx="58" cy="82" rx="14" ry="12"
+        [attr.fill]="isMarked('left-shoulder') ? getPainColor(getPainScore('left-shoulder')) : '#e2e8f0'"
+        stroke="#94a3b8" stroke-width="1.5" class="cursor-pointer hover:opacity-80 transition-opacity"
+        (click)="onRegionClick($event, 'left-shoulder')" />
+
+      <!-- Right Shoulder -->
+      <ellipse id="right-shoulder" cx="142" cy="82" rx="14" ry="12"
+        [attr.fill]="isMarked('right-shoulder') ? getPainColor(getPainScore('right-shoulder')) : '#e2e8f0'"
+        stroke="#94a3b8" stroke-width="1.5" class="cursor-pointer hover:opacity-80 transition-opacity"
+        (click)="onRegionClick($event, 'right-shoulder')" />
+
+      <!-- Left Upper Arm -->
+      <rect x="42" y="94" width="18" height="50" rx="8"
+        [attr.fill]="isMarked('left-elbow') ? getPainColor(getPainScore('left-elbow')) : '#e2e8f0'"
+        stroke="#94a3b8" stroke-width="1.5" class="cursor-pointer hover:opacity-80 transition-opacity"
+        (click)="onRegionClick($event, 'left-elbow')" />
+
+      <!-- Right Upper Arm -->
+      <rect x="140" y="94" width="18" height="50" rx="8"
+        [attr.fill]="isMarked('right-elbow') ? getPainColor(getPainScore('right-elbow')) : '#e2e8f0'"
+        stroke="#94a3b8" stroke-width="1.5" class="cursor-pointer hover:opacity-80 transition-opacity"
+        (click)="onRegionClick($event, 'right-elbow')" />
+
+      <!-- Left Forearm/Wrist -->
+      <rect x="44" y="148" width="14" height="44" rx="6"
+        [attr.fill]="isMarked('left-wrist') ? getPainColor(getPainScore('left-wrist')) : '#e2e8f0'"
+        stroke="#94a3b8" stroke-width="1.5" class="cursor-pointer hover:opacity-80 transition-opacity"
+        (click)="onRegionClick($event, 'left-wrist')" />
+
+      <!-- Right Forearm/Wrist -->
+      <rect x="142" y="148" width="14" height="44" rx="6"
+        [attr.fill]="isMarked('right-wrist') ? getPainColor(getPainScore('right-wrist')) : '#e2e8f0'"
+        stroke="#94a3b8" stroke-width="1.5" class="cursor-pointer hover:opacity-80 transition-opacity"
+        (click)="onRegionClick($event, 'right-wrist')" />
+
+      <!-- Hip -->
+      <rect id="hip" x="70" y="192" width="60" height="36" rx="6"
+        [attr.fill]="isMarked('hip') ? getPainColor(getPainScore('hip')) : '#e2e8f0'"
+        stroke="#94a3b8" stroke-width="1.5" class="cursor-pointer hover:opacity-80 transition-opacity"
+        (click)="onRegionClick($event, 'hip')" />
+
+      <!-- Left Thigh -->
+      <rect x="72" y="228" width="24" height="66" rx="8"
+        [attr.fill]="isMarked('left-thigh') ? getPainColor(getPainScore('left-thigh')) : '#e2e8f0'"
+        stroke="#94a3b8" stroke-width="1.5" class="cursor-pointer hover:opacity-80 transition-opacity"
+        (click)="onRegionClick($event, 'left-thigh')" />
+
+      <!-- Right Thigh -->
+      <rect x="104" y="228" width="24" height="66" rx="8"
+        [attr.fill]="isMarked('right-thigh') ? getPainColor(getPainScore('right-thigh')) : '#e2e8f0'"
+        stroke="#94a3b8" stroke-width="1.5" class="cursor-pointer hover:opacity-80 transition-opacity"
+        (click)="onRegionClick($event, 'right-thigh')" />
+
+      <!-- Left Knee -->
+      <ellipse id="left-knee" cx="84" cy="302" rx="14" ry="10"
+        [attr.fill]="isMarked('left-knee') ? getPainColor(getPainScore('left-knee')) : '#e2e8f0'"
+        stroke="#94a3b8" stroke-width="1.5" class="cursor-pointer hover:opacity-80 transition-opacity"
+        (click)="onRegionClick($event, 'left-knee')" />
+
+      <!-- Right Knee -->
+      <ellipse id="right-knee" cx="116" cy="302" rx="14" ry="10"
+        [attr.fill]="isMarked('right-knee') ? getPainColor(getPainScore('right-knee')) : '#e2e8f0'"
+        stroke="#94a3b8" stroke-width="1.5" class="cursor-pointer hover:opacity-80 transition-opacity"
+        (click)="onRegionClick($event, 'right-knee')" />
+
+      <!-- Left Calf -->
+      <rect x="74" y="314" width="20" height="62" rx="8"
+        [attr.fill]="isMarked('left-calf') ? getPainColor(getPainScore('left-calf')) : '#e2e8f0'"
+        stroke="#94a3b8" stroke-width="1.5" class="cursor-pointer hover:opacity-80 transition-opacity"
+        (click)="onRegionClick($event, 'left-calf')" />
+
+      <!-- Right Calf -->
+      <rect x="106" y="314" width="20" height="62" rx="8"
+        [attr.fill]="isMarked('right-calf') ? getPainColor(getPainScore('right-calf')) : '#e2e8f0'"
+        stroke="#94a3b8" stroke-width="1.5" class="cursor-pointer hover:opacity-80 transition-opacity"
+        (click)="onRegionClick($event, 'right-calf')" />
+
+      <!-- Left Ankle -->
+      <rect id="left-ankle" x="72" y="378" width="24" height="20" rx="4"
+        [attr.fill]="isMarked('left-ankle') ? getPainColor(getPainScore('left-ankle')) : '#e2e8f0'"
+        stroke="#94a3b8" stroke-width="1.5" class="cursor-pointer hover:opacity-80 transition-opacity"
+        (click)="onRegionClick($event, 'left-ankle')" />
+
+      <!-- Right Ankle -->
+      <rect id="right-ankle" x="104" y="378" width="24" height="20" rx="4"
+        [attr.fill]="isMarked('right-ankle') ? getPainColor(getPainScore('right-ankle')) : '#e2e8f0'"
+        stroke="#94a3b8" stroke-width="1.5" class="cursor-pointer hover:opacity-80 transition-opacity"
+        (click)="onRegionClick($event, 'right-ankle')" />
+    </svg>
+  }
+
+  <!-- SVG Body - Back View -->
+  @if (activeView === 'back') {
+    <svg viewBox="0 0 200 440" class="w-48 h-auto select-none" xmlns="http://www.w3.org/2000/svg">
+
+      <!-- Head back -->
+      <ellipse cx="100" cy="30" rx="22" ry="26"
+        [attr.fill]="isMarked('head') ? getPainColor(getPainScore('head')) : '#e2e8f0'"
+        stroke="#94a3b8" stroke-width="1.5" class="cursor-pointer hover:opacity-80 transition-opacity"
+        (click)="onRegionClick($event, 'head')" />
+
+      <!-- Upper back -->
+      <rect id="upper-back" x="68" y="72" width="64" height="60" rx="8"
+        [attr.fill]="isMarked('upper-back') ? getPainColor(getPainScore('upper-back')) : '#e2e8f0'"
+        stroke="#94a3b8" stroke-width="1.5" class="cursor-pointer hover:opacity-80 transition-opacity"
+        (click)="onRegionClick($event, 'upper-back')" />
+
+      <!-- Lower back -->
+      <rect id="lower-back" x="72" y="132" width="56" height="60" rx="6"
+        [attr.fill]="isMarked('lower-back') ? getPainColor(getPainScore('lower-back')) : '#e2e8f0'"
+        stroke="#94a3b8" stroke-width="1.5" class="cursor-pointer hover:opacity-80 transition-opacity"
+        (click)="onRegionClick($event, 'lower-back')" />
+
+      <!-- Shoulders (back) -->
+      <ellipse cx="58" cy="82" rx="14" ry="12"
+        [attr.fill]="isMarked('left-shoulder') ? getPainColor(getPainScore('left-shoulder')) : '#e2e8f0'"
+        stroke="#94a3b8" stroke-width="1.5" class="cursor-pointer hover:opacity-80 transition-opacity"
+        (click)="onRegionClick($event, 'left-shoulder')" />
+      <ellipse cx="142" cy="82" rx="14" ry="12"
+        [attr.fill]="isMarked('right-shoulder') ? getPainColor(getPainScore('right-shoulder')) : '#e2e8f0'"
+        stroke="#94a3b8" stroke-width="1.5" class="cursor-pointer hover:opacity-80 transition-opacity"
+        (click)="onRegionClick($event, 'right-shoulder')" />
+
+      <!-- Arms back -->
+      <rect x="42" y="94" width="18" height="50" rx="8"
+        [attr.fill]="'#e2e8f0'" stroke="#94a3b8" stroke-width="1.5" class="cursor-pointer hover:opacity-80" (click)="onRegionClick($event, 'left-elbow')" />
+      <rect x="140" y="94" width="18" height="50" rx="8"
+        [attr.fill]="'#e2e8f0'" stroke="#94a3b8" stroke-width="1.5" class="cursor-pointer hover:opacity-80" (click)="onRegionClick($event, 'right-elbow')" />
+
+      <!-- Glutes/Hip back -->
+      <rect x="70" y="192" width="60" height="36" rx="6"
+        [attr.fill]="isMarked('hip') ? getPainColor(getPainScore('hip')) : '#e2e8f0'"
+        stroke="#94a3b8" stroke-width="1.5" class="cursor-pointer hover:opacity-80 transition-opacity"
+        (click)="onRegionClick($event, 'hip')" />
+
+      <!-- Legs back (same as front) -->
+      <rect x="72" y="228" width="24" height="66" rx="8" [attr.fill]="'#e2e8f0'" stroke="#94a3b8" stroke-width="1.5" class="cursor-pointer hover:opacity-80" (click)="onRegionClick($event, 'left-thigh')" />
+      <rect x="104" y="228" width="24" height="66" rx="8" [attr.fill]="'#e2e8f0'" stroke="#94a3b8" stroke-width="1.5" class="cursor-pointer hover:opacity-80" (click)="onRegionClick($event, 'right-thigh')" />
+      <ellipse cx="84" cy="302" rx="14" ry="10" [attr.fill]="'#e2e8f0'" stroke="#94a3b8" stroke-width="1.5" class="cursor-pointer hover:opacity-80" (click)="onRegionClick($event, 'left-knee')" />
+      <ellipse cx="116" cy="302" rx="14" ry="10" [attr.fill]="'#e2e8f0'" stroke="#94a3b8" stroke-width="1.5" class="cursor-pointer hover:opacity-80" (click)="onRegionClick($event, 'right-knee')" />
+      <rect x="74" y="314" width="20" height="62" rx="8" [attr.fill]="'#e2e8f0'" stroke="#94a3b8" stroke-width="1.5" class="cursor-pointer hover:opacity-80" (click)="onRegionClick($event, 'left-calf')" />
+      <rect x="106" y="314" width="20" height="62" rx="8" [attr.fill]="'#e2e8f0'" stroke="#94a3b8" stroke-width="1.5" class="cursor-pointer hover:opacity-80" (click)="onRegionClick($event, 'right-calf')" />
+    </svg>
+  }
+
+  <!-- Pain score panel (appears when a region is selected) -->
+  @if (selectedRegion) {
+    <div class="w-full max-w-xs bg-white rounded-2xl shadow-lg border border-gray-100 p-5 mt-2">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="font-semibold text-gray-800 text-base">{{ getRegionName(selectedRegion.anatomicalRegion) }}</h3>
+        <button (click)="closePanel()" class="text-gray-400 hover:text-gray-600 text-xl leading-none">&times;</button>
+      </div>
+      <p class="text-xs text-gray-500 mb-3">Pain level: <span class="font-semibold text-gray-700">{{ selectedRegion.painScore }}/10</span></p>
+      <div class="flex gap-1 mb-4">
+        @for (n of [1,2,3,4,5,6,7,8,9,10]; track n) {
+          <button
+            (click)="setPainScore(n)"
+            [style.background]="n <= selectedRegion.painScore ? getPainColor(selectedRegion.painScore) : '#f1f5f9'"
+            class="w-7 h-7 rounded-md text-xs font-medium transition-all"
+            [class.text-white]="n <= selectedRegion.painScore"
+            [class.text-gray-500]="n > selectedRegion.painScore"
+          >{{ n }}</button>
+        }
+      </div>
+      <button
+        (click)="removeRegion(selectedRegion.anatomicalRegion)"
+        class="text-xs text-red-400 hover:text-red-600 underline"
+      >Remove this region</button>
+    </div>
+  }
+
+  <!-- Marked regions summary -->
+  @if (markedRegions.length > 0) {
+    <div class="w-full max-w-xs mt-2">
+      <p class="text-xs text-gray-400 mb-2">Marked regions:</p>
+      <div class="flex flex-wrap gap-2">
+        @for (r of markedRegions; track r.anatomicalRegion) {
+          <span
+            class="text-xs px-3 py-1 rounded-full text-white font-medium"
+            [style.background]="getPainColor(r.painScore)"
+          >{{ getRegionName(r.anatomicalRegion) }} · {{ r.painScore }}</span>
+        }
+      </div>
+    </div>
+  }
+
+</div>
