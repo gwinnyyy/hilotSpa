@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { PreAssessmentComponent } from './components/pre-assessment/pre-assessment';
+import { RouterOutlet } from '@angular/router'; 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [PreAssessmentComponent],
+  imports: [RouterOutlet], 
   templateUrl: './app.html',
 })
 export class AppComponent {}
