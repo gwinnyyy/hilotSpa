@@ -6,13 +6,18 @@ import {
   FormGroup,
   Validators
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-demographics',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './demographics.html'
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    RouterModule
+  ],
+  templateUrl: './demographics.html',
+  styleUrls: ['./demographics.css']
 })
 export class DemographicsComponent {
 
@@ -26,20 +31,25 @@ export class DemographicsComponent {
     this.demoForm = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      age: ['', Validators.required],
-      sex: ['', Validators.required],
-      status: ['', Validators.required],
-      height: ['', Validators.required],
-      weight: ['', Validators.required],
-      birthDate: ['', Validators.required]
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required],
+      confirmPassword: ['', Validators.required]
     });
 
   }
 
-  onSubmit() {
+  onSubmit(): void {
 
     if (this.demoForm.invalid) {
       alert('Please complete all fields.');
+      return;
+    }
+
+    const password = this.demoForm.value.password;
+    const confirmPassword = this.demoForm.value.confirmPassword;
+
+    if (password !== confirmPassword) {
+      alert('Passwords do not match.');
       return;
     }
 
