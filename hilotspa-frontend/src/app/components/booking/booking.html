@@ -1,0 +1,135 @@
+<div class="booking-page">
+
+  <div class="booking-card">
+
+    <div class="booking-header">
+
+      <span class="section-label">
+        Appointment Booking
+      </span>
+
+      <h1>Book Your Appointment</h1>
+
+      <p>
+        Select your preferred schedule for your wellness session.
+      </p>
+
+    </div>
+
+    <form class="booking-form">
+
+      <div class="form-grid">
+
+        <div class="form-group">
+          <label>Selected Service</label>
+
+            <input 
+                type="text" 
+                [value]="selectedService?.name"
+                 readonly>
+
+        </div>
+
+        <div class="form-group">
+          <label>Branch</label>
+
+          <select>
+            <option>Main Branch</option>
+            <option>Bulan Branch</option>
+            <option>Catarman Branch</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Preferred Therapist</label>
+
+          <select>
+            <option>Any Therapist</option>
+            <option>Male</option>
+            <option>Female</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Appointment Date</label>
+
+          <input type="date">
+        </div>
+
+      </div>
+
+      <div class="form-group">
+
+        <label>Available Time</label>
+
+        <div class="time-grid">
+
+            <button
+                *ngFor="let time of availableTimes"
+                type="button"
+                (click)="selectTime(time)"
+                [class.selected]="selectedTime === time">
+
+                 {{ time }}
+
+            </button>
+
+        </div>
+
+      </div>
+
+      <div class="form-group">
+
+        <label>Additional Notes</label>
+
+        <textarea rows="4"></textarea>
+
+      </div>
+
+      <div class="summary">
+
+        <div>
+
+          <h3>Estimated Duration</h3>
+
+          <p>{{ selectedService?.duration }} Minutes</p>
+
+        </div>
+
+        <div>
+
+          <h3>Estimated Price</h3>
+
+          <p>₱{{ selectedService?.price }}</p>
+
+        </div>
+
+      </div>
+
+        <div class="footer-buttons">
+
+            <button
+                type="button"
+                class="btn-secondary"
+                (click)="goBack()">
+
+                Back
+
+            </button>
+
+            <button
+                type="button"
+                class="btn-primary"
+                (click)="confirmBooking()">
+
+                 Confirm Booking
+
+            </button>
+
+        </div>
+
+    </form>
+
+  </div>
+
+</div>

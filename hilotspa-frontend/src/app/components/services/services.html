@@ -1,0 +1,87 @@
+<div class="services-page">
+
+  <div class="overlay"></div>
+
+  <div class="services-container">
+
+    <div class="top-bar">
+
+      <button class="back-btn" routerLink="/login">
+        ← Back
+      </button>
+
+    </div>
+
+    <div class="hero">
+
+      <span class="section-label">
+        OUR SERVICES
+      </span>
+
+      <h1>
+        Discover Our Spa Treatments
+      </h1>
+
+      <p>
+        Explore our wellness services before beginning your AI-powered
+        pre-assessment. Our recommendations will help determine which
+        treatment best suits your health condition and wellness goals.
+      </p>
+
+    </div>
+
+  <div class="services-grid">
+
+  <div
+    class="service-card"
+    *ngFor="let service of services">
+
+    <h2>
+
+      {{ service.name }}
+
+    </h2>
+
+    <span class="badge">
+
+      Popular
+
+    </span>
+
+    <p class="description">
+
+      {{ service.description }}
+
+    </p>
+
+    <div class="info">
+
+      <span>
+
+        ⏱ {{ service.duration }} mins
+
+      </span>
+
+      <span>
+
+        ₱{{ service.price }}
+
+      </span>
+
+    </div>
+
+    <button
+      class="btn-primary"
+      (click)="beginAssessment(service)">
+
+      Begin Assessment
+
+    </button>
+
+  </div>
+
+</div>
+
+  </div>
+
+</div>

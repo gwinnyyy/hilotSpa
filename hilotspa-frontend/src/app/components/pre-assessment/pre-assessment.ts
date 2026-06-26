@@ -1,15 +1,12 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  ReactiveFormsModule,
-  FormBuilder,
-  FormGroup,
-  Validators
-} from '@angular/forms';
 
-import { BodyMapComponent, MarkedRegion } from '../body-map/body-map';
+import {
+  BodyMapComponent,
+  MarkedRegion
+} from '../body-map/body-map';
+
 import { PatientIntakeService } from '../../services/patient-intake';
-import { DemographicsService } from '../../services/demographics';
 
 const COMPLAINT_OPTIONS = [
   'Neck Pain',
@@ -44,7 +41,6 @@ const COMPLAINT_OPTIONS = [
   standalone: true,
   imports: [
     CommonModule,
-    ReactiveFormsModule,
     BodyMapComponent
   ],
   templateUrl: './pre-assessment.html'
@@ -63,29 +59,14 @@ export class PreAssessmentComponent {
 
   submitSuccess = false;
 
-  demoForm: FormGroup;
-
   constructor(
-    private fb: FormBuilder,
-    private patientIntakeService: PatientIntakeService,
-    private demographicsService: DemographicsService,
-  ) {
-
-    this.demoForm = this.fb.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      age: ['', Validators.required],
-      sex: ['', Validators.required],
-      status: ['', Validators.required],
-      height: ['', Validators.required],
-      weight: ['', Validators.required],
-      birthDate: ['', Validators.required]
-    });
-
-  }
+    private patientIntakeService: PatientIntakeService
+  ) {}
 
   onRegionsChanged(regions: MarkedRegion[]) {
+
     this.markedRegions = regions;
+
   }
 
   toggleComplaint(complaint: string) {
@@ -94,9 +75,13 @@ export class PreAssessmentComponent {
       this.selectedComplaints.indexOf(complaint);
 
     if (index === -1) {
+
       this.selectedComplaints.push(complaint);
+
     } else {
+
       this.selectedComplaints.splice(index, 1);
+
     }
 
   }
@@ -113,20 +98,32 @@ export class PreAssessmentComponent {
 
     if (this.step === 1) {
 
-      if (this.demoForm.invalid) {
-        this.demoForm.markAllAsTouched();
+      if (this.markedRegions.length === 0) {
+
+        alert('Please select at least one pain area.');
+
         return;
+
       }
 
       this.step = 2;
+
       return;
+
     }
 
-    if (
-      this.step === 2 &&
-      this.markedRegions.length > 0
-    ) {
+    if (this.step === 2) {
+
+      if (this.selectedComplaints.length === 0) {
+
+        alert('Please select at least one complaint.');
+
+        return;
+
+      }
+
       this.step = 3;
+
     }
 
   }
@@ -134,92 +131,64 @@ export class PreAssessmentComponent {
   goBack() {
 
     if (this.step > 1) {
-      this.step =
-        (this.step - 1) as 1 | 2 | 3;
+
+      this.step = (this.step - 1) as 1 | 2 | 3;
+
     }
 
   }
 
-submit() {
+  submit() {
 
-  if (this.markedRegions.length === 0) {
-    alert('Please select at least one pain area.');
-    return;
-  }
+    this.submitting = true;
 
-  this.submitting = true;
+    let saved = 0;
 
-  this.demographicsService
-    .saveDemographics(this.demoForm.value)
-    .subscribe({
+    this.markedRegions.forEach(region => {
 
-      next: () => {
+      this.patientIntakeService
+        .savePainPoint({
 
-        let saved = 0;
+          anatomicalRegion: region.anatomicalRegion,
 
-        this.markedRegions.forEach(region => {
+          coordinateX: region.coordinateX,
 
-          this.patientIntakeService
-            .savePainPoint({
+          coordinateY: region.coordinateY,
 
-              anatomicalRegion:
-                region.anatomicalRegion,
+          painScore: region.painScore,
 
-              coordinateX:
-                region.coordinateX,
+          complaintType:
+            this.selectedComplaints.join(', ')
 
-              coordinateY:
-                region.coordinateY,
+        })
+        .subscribe({
 
-              painScore:
-                region.painScore,
+          next: () => {
 
-              complaintType:
-                this.selectedComplaints.join(', ')
+            saved++;
 
-            })
-            .subscribe({
+            if (saved === this.markedRegions.length) {
 
-              next: () => {
+              this.submitting = false;
 
-                saved++;
+              this.submitSuccess = true;
 
-                if (
-                  saved ===
-                  this.markedRegions.length
-                ) {
+            }
 
-                  this.submitting = false;
-                  this.submitSuccess = true;
+          },
 
-                }
+          error: (err) => {
 
-              },
+            console.error(err);
 
-              error: (err) => {
+            this.submitting = false;
 
-                console.error(err);
-
-                this.submitting = false;
-
-              }
-
-            });
+          }
 
         });
 
-      },
-
-      error: (err) => {
-
-        console.error(err);
-
-        this.submitting = false;
-
-      }
-
     });
 
-}
+  }
 
 }

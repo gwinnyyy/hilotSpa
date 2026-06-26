@@ -9,17 +9,17 @@ import {
 import { Router, RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-demographics',
+  selector: 'app-guest-information',
   standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,
     RouterModule
   ],
-  templateUrl: './demographics.html',
-  styleUrls: ['./demographics.css']
+  templateUrl: './guest-information.html',
+  styleUrls: ['./guest-information.css']
 })
-export class DemographicsComponent {
+export class GuestInformationComponent {
 
   demoForm: FormGroup;
 

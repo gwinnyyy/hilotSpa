@@ -5,13 +5,15 @@
       <h1 class="text-3xl font-bold text-blue-900">
         HilotSpa Assessment
       </h1>
+
       <p class="text-gray-500 mt-2">
-        Complete the pre-assessment before your massage session.
+        Complete your wellness assessment before your massage session.
       </p>
     </div>
 
     <!-- Progress -->
     <div class="flex items-center gap-4 mb-8">
+
       <div
         class="w-10 h-10 rounded-full flex items-center justify-center font-bold"
         [class.bg-blue-600]="step === 1"
@@ -37,84 +39,16 @@
         class="w-10 h-10 rounded-full flex items-center justify-center font-bold"
         [class.bg-blue-600]="step === 3"
         [class.bg-gray-300]="step < 3"
-        [class.text-white]="step === 3">
+        [class.text-white]="step >= 3">
         3
       </div>
+
     </div>
 
     <!-- STEP 1 -->
-    <div *ngIf="step === 1"
-         class="bg-white rounded-xl shadow p-6">
-
-      <h2 class="text-xl font-semibold mb-6">
-        Patient Information
-      </h2>
-
-      <form [formGroup]="demoForm">
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-
-          <input
-            formControlName="firstName"
-            placeholder="First Name"
-            class="border rounded-lg p-3">
-
-          <input
-            formControlName="lastName"
-            placeholder="Last Name"
-            class="border rounded-lg p-3">
-
-          <input
-            formControlName="age"
-            type="number"
-            placeholder="Age"
-            class="border rounded-lg p-3">
-
-          <input
-            formControlName="birthDate"
-            type="date"
-            class="border rounded-lg p-3">
-
-          <input
-            formControlName="height"
-            type="number"
-            placeholder="Height (cm)"
-            class="border rounded-lg p-3">
-
-          <input
-            formControlName="weight"
-            type="number"
-            placeholder="Weight (kg)"
-            class="border rounded-lg p-3">
-
-          <select
-            formControlName="sex"
-            class="border rounded-lg p-3">
-
-            <option value="">Sex</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-
-          </select>
-
-          <select
-            formControlName="status"
-            class="border rounded-lg p-3">
-
-            <option value="">Civil Status</option>
-            <option value="Single">Single</option>
-            <option value="Married">Married</option>
-
-          </select>
-
-        </div>
-
-      </form>
-    </div>
-
-    <!-- STEP 2 -->
-    <div *ngIf="step === 2"
-         class="bg-white rounded-xl shadow p-6">
+    <div
+      *ngIf="step === 1"
+      class="bg-white rounded-xl shadow p-6">
 
       <h2 class="text-xl font-semibold mb-4">
         Pain Mapping
@@ -129,16 +63,19 @@
       </app-body-map>
 
       <div class="mt-6">
+
         <p class="font-semibold">
           Selected Regions: {{ markedRegions.length }}
         </p>
+
       </div>
 
     </div>
 
-    <!-- STEP 3 -->
-    <div *ngIf="step === 3"
-         class="bg-white rounded-xl shadow p-6">
+    <!-- STEP 2 -->
+    <div
+      *ngIf="step === 2"
+      class="bg-white rounded-xl shadow p-6">
 
       <h2 class="text-xl font-semibold mb-6">
         Main Complaints
@@ -157,6 +94,50 @@
           {{ c }}
 
         </button>
+
+      </div>
+
+    </div>
+
+    <!-- STEP 3 -->
+    <div
+      *ngIf="step === 3"
+      class="bg-white rounded-xl shadow p-6">
+
+      <h2 class="text-2xl font-bold mb-4">
+        Review Assessment
+      </h2>
+
+      <div class="mb-6">
+
+        <h3 class="font-semibold text-lg mb-2">
+          Pain Areas
+        </h3>
+
+        <ul class="list-disc pl-6">
+
+          <li *ngFor="let region of markedRegions">
+            {{ region.anatomicalRegion }}
+            (Pain Score: {{ region.painScore }})
+          </li>
+
+        </ul>
+
+      </div>
+
+      <div>
+
+        <h3 class="font-semibold text-lg mb-2">
+          Main Complaints
+        </h3>
+
+        <ul class="list-disc pl-6">
+
+          <li *ngFor="let complaint of selectedComplaints">
+            {{ complaint }}
+          </li>
+
+        </ul>
 
       </div>
 
@@ -198,19 +179,21 @@
 
     </div>
 
-    <!-- Submit Success Message ---->
+    <!-- Success -->
+
     <div
-  *ngIf="submitSuccess"
-  class="mt-6 p-4 bg-green-100 border border-green-300 rounded-lg">
+      *ngIf="submitSuccess"
+      class="mt-6 p-4 bg-green-100 border border-green-300 rounded-lg">
 
-  <h3 class="font-bold text-green-700">
-    Assessment Submitted Successfully
-  </h3>
+      <h3 class="font-bold text-green-700">
+        Assessment Submitted Successfully
+      </h3>
 
-  <p class="text-green-600">
-    Thank you for completing your assessment.
-  </p>
+      <p class="text-green-600">
+        Thank you for completing your assessment.
+      </p>
 
-</div>
+    </div>
+
   </div>
 </div>
